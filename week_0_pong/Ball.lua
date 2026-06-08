@@ -7,8 +7,22 @@ function Ball:init(x, y, width, height)
     self.height = height
 
     self.dx = math.random(2) == 1 and -100 or 100
-    self.dy = math.random(-50, 50)
+    self.dy = math.random(2) == 1 and math.random(-80, -100) or math.random(80, 100)
+end
 
+function Ball:collides(paddle)
+    -- check left and right edge collisions
+    if self.x >= paddle.x + paddle.width or paddle.x >= self.x + self.width then
+        return false
+    end
+
+    -- check top and bottom edge collisions
+    if self.y >= paddle.y + paddle.height or paddle.y >= self.y + self.height then
+        return false
+    end
+
+    -- if the above aren't true, they're overlapping
+    return true
 end
 
 function Ball:reset()
